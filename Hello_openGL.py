@@ -9,6 +9,36 @@ def draw_points(x, y):
     glVertex2f(x,y) #jekhane show korbe pixel
     glEnd()
 
+def draw_lines(x, y, a, b):
+    glLineWidth(5)
+    glBegin(GL_LINES)
+    glVertex2f(x, y)
+    glVertex2f(a, b)
+    glEnd()
+    
+def draw_triangles(a, b, c, d, e, f):
+    
+    glBegin(GL_TRIANGLES)
+    glVertex2f(a, b)
+    glVertex2f(c, d)
+    glVertex2f(e, f)
+    glEnd()
+
+def draw_triangles_practice(a, b, c, d, e, f):
+    glLineWidth(5)
+    
+    glBegin(GL_LINES)
+    
+    glVertex2f(a, b)
+    glVertex2f(c, d)
+    
+    glVertex2f(c, d)
+    glVertex2f(e, f)
+    
+    glVertex2f(e, f)
+    glVertex2f(a, b)
+    
+    glEnd()
 
 def iterate():
     glViewport(0, 0, 500, 500)
@@ -24,7 +54,27 @@ def showScreen():
     iterate()
     glColor3f(1.0, 1.0, 0.0) #konokichur color set (RGB)
     #call the draw methods here
-    draw_points(250, 250)
+    
+    #   draw a line manully using points
+    # for i in range(500):
+    #     glColor3f(1, 0, 0)
+    #     draw_points(i, i)
+    
+    #   draw lines
+    # glColor3f(1, 0, 0)
+    # draw_lines(250, 250, 250, 450)
+    # draw_lines(50, 350, 350, 350)
+    
+    #   Draw a rectangle manually using lines
+    # draw_lines(150, 150, 250, 150)
+    # draw_lines(150, 200, 250, 200)
+    # draw_lines(150, 150, 150, 200)
+    # draw_lines(250, 150, 250, 200)
+    
+    #   Draw triangle
+    draw_triangles(100, 100, 100, 250, 150, 150)
+    
+    
     glutSwapBuffers()
 
 
