@@ -2,6 +2,9 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
+point_x = 0
+point_y = 150
+update_speed = 0.1
 
 def draw_points(x, y):
     glPointSize(5) #pixel size. by default 1 thake
@@ -55,6 +58,9 @@ def showScreen():
     glColor3f(1.0, 1.0, 0.0) #konokichur color set (RGB)
     #call the draw methods here
     
+    #   Draw points
+    draw_points(250, 0)
+    
     #   draw a line manully using points
     # for i in range(500):
     #     glColor3f(1, 0, 0)
@@ -72,10 +78,24 @@ def showScreen():
     # draw_lines(250, 150, 250, 200)
     
     #   Draw triangle
-    draw_triangles(100, 100, 100, 250, 150, 150)
+    # draw_triangles(100, 100, 100, 250, 150, 150)
+    
+    draw_points(point_x, point_y)
     
     
     glutSwapBuffers()
+    
+def updater():
+    global point_x, point_y, update_speed
+    
+    point_x = point_x + update_speed
+    
+    if point_x >= 500:
+        update_speed *= -1
+    if point_x <= 0:
+        update_speed *= -1
+    
+    glutPostRedisplay()
 
 
 
@@ -85,5 +105,8 @@ glutInitWindowSize(500, 500) #window size
 glutInitWindowPosition(0, 0)
 wind = glutCreateWindow(b"OpenGL Coding Practice") #window name
 glutDisplayFunc(showScreen)
+
+#   Animate
+glutIdleFunc(updater)
 
 glutMainLoop()
