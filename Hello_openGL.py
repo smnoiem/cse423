@@ -4,7 +4,8 @@ from OpenGL.GLU import *
 
 point_x = 0
 point_y = 150
-update_speed = 0.1
+update_speed = 0.01
+pause = True
 
 def draw_points(x, y):
     glPointSize(5) #pixel size. by default 1 thake
@@ -59,7 +60,7 @@ def showScreen():
     #call the draw methods here
     
     #   Draw points
-    draw_points(250, 0)
+    # draw_points(250, 0)
     
     #   draw a line manully using points
     # for i in range(500):
@@ -86,7 +87,10 @@ def showScreen():
     glutSwapBuffers()
     
 def updater():
-    global point_x, point_y, update_speed
+    global point_x, point_y, update_speed, pause
+    
+    if pause == True:
+        return
     
     point_x = point_x + update_speed
     
@@ -97,6 +101,16 @@ def updater():
     
     glutPostRedisplay()
 
+def keyboard_handler(key, x, y):
+    global update_speed, pause
+    if key == b' ':
+        if update_speed >= 0:
+            update_speed += 0.01
+        else:
+            update_speed -= 0.01
+        print('speed increased')
+        
+        pause = False
 
 
 glutInit()
@@ -108,5 +122,8 @@ glutDisplayFunc(showScreen)
 
 #   Animate
 glutIdleFunc(updater)
+
+#   Keyboard interrupt
+glutKeyboardFunc(keyboard_handler)
 
 glutMainLoop()
