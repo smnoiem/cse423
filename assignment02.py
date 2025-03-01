@@ -9,6 +9,7 @@ points = [((250, 250), (1, 1), (0.5, 0.5, 0.5))]
 speed = 0.1
 blink_mode = False
 blink = True
+frozen = False
 
 def draw_points(x, y):
     glPointSize(5) #pixel size. by default 1 thake
@@ -54,6 +55,8 @@ def showScreen():
     glutSwapBuffers()
     
 def updater():
+    if frozen:
+        return
     global points, speed, blink, blink_mode
     for i in range(len(points)):
         point = points[i]
@@ -75,6 +78,8 @@ def updater():
     glutPostRedisplay()
 
 def mouse_handler(button, state, x, y):
+    if frozen:
+        return
     global points
     if button==GLUT_RIGHT_BUTTON:
         if(state == GLUT_DOWN):
@@ -92,6 +97,8 @@ def mouse_handler(button, state, x, y):
 
 
 def special_key_handler(key, x, y):
+    if frozen:
+        return
     global speed, blink_mode, blink
     if key==GLUT_KEY_UP:
         speed *= 2
@@ -106,9 +113,15 @@ def special_key_handler(key, x, y):
             blink = True
             glutTimerFunc(1000, toggle_flag, 0)
 
+def keyboard_handler(key, x, y):
+    global frozen
+    if key == b' ':
+        frozen = not frozen
+
 def toggle_flag(value):
     global blink_mode, blink
-    blink = not blink
+    if not frozen:
+        blink = not blink
     if blink_mode:
         glutTimerFunc(1000, toggle_flag, 0)
 
@@ -133,8 +146,7 @@ glutIdleFunc(updater)
 
 #   Mouse interrupt
 glutMouseFunc(mouse_handler)
-
-
 glutSpecialFunc(special_key_handler)
+glutKeyboardFunc(keyboard_handler)
 
 glutMainLoop()
